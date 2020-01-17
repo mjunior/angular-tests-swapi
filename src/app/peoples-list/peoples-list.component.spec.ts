@@ -1,38 +1,35 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { Observable } from 'rxjs';
 import { PeoplesListComponent } from './peoples-list.component';
-import { By } from '@angular/platform-browser';
+import { PeoplesListService } from './peoples-list.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+export class DataStub {
+  public getPeoples(): Observable<any> {
+    return new Observable((observer) => {
+      observer.next({ results: [{ name: 1 }, { name: 1 }] });
+    });
+  }
+}
 
 fdescribe('PeoplesListComponent', () => {
   let component: PeoplesListComponent;
   let fixture: ComponentFixture<PeoplesListComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PeoplesListComponent ]
-    })
-    .compileComponents();
-  }));
-
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [PeoplesListComponent],
+      imports: [ HttpClientTestingModule ],
+      providers: [{ provide: PeoplesListService, useClass: DataStub }]
+    });
+
     fixture = TestBed.createComponent(PeoplesListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('teste', () => {
+    expect( component.peoples.length).toEqual(2);
   });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should list the peoples', () => {
-    expect(component.peoples.length).toEqual(3);
-    const li = fixture.debugElement.queryAll(By.css('#people-list li'));
-    expect(li[0].nativeElement.textContent.trim()).toEqual('Luke Skywalker');
-    expect(li[1].nativeElement.textContent.trim()).toEqual('2 Luke Skywalker');
-    expect(li[2].nativeElement.textContent.trim()).toEqual('3 Luke Skywalker');
-  })
 });

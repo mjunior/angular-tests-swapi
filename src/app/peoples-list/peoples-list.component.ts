@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PeoplesListService } from './peoples-list.service';
 
 @Component({
   selector: 'app-peoples-list',
@@ -7,29 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PeoplesListComponent implements OnInit {
 
-  peoples = [
-    {
-      'name': 'Luke Skywalker',
-      'height': '172',
-      'mass': '77',
-      'hair_color': 'blond',
-      'skin_color': 'fair'
-    },{
-      'name': '2 Luke Skywalker',
-      'height': '172',
-      'mass': '77',
-      'hair_color': 'blond',
-      'skin_color': 'fair'
-    },{
-      'name': '3 Luke Skywalker',
-      'height': '172',
-      'mass': '77',
-      'hair_color': 'blond',
-      'skin_color': 'fair'
-    },
-  ];
-  constructor() { }
+  peoples = [];
+  constructor(private peopleService: PeoplesListService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.peopleService.getPeoples().subscribe((data) => {
+      this.peoples = data.results;
+    });
+  }
 
 }
