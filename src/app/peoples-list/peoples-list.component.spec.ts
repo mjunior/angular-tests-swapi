@@ -3,36 +3,31 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PeoplesListComponent } from './peoples-list.component';
 import { By } from '@angular/platform-browser';
 
-fdescribe('PeoplesListComponent', () => {
+describe('PeoplesListComponent', () => {
   let component: PeoplesListComponent;
   let fixture: ComponentFixture<PeoplesListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ PeoplesListComponent ]
-    })
-    .compileComponents();
-  }));
+    }).compileComponents();
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PeoplesListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+    console.log(fixture)
+    console.log(component)
+  }));
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should list the peoples', () => {
+  it('should list names', () => {
     expect(component.peoples.length).toEqual(3);
-    const li = fixture.debugElement.queryAll(By.css('#people-list li'));
-    expect(li[0].nativeElement.textContent.trim()).toEqual('Luke Skywalker');
-    expect(li[1].nativeElement.textContent.trim()).toEqual('2 Luke Skywalker');
-    expect(li[2].nativeElement.textContent.trim()).toEqual('3 Luke Skywalker');
+    const listNames = fixture.debugElement.queryAll(By.css('#people-list li'));
+    expect(listNames[0].nativeElement.textContent.trim()).toEqual('Luke Skywalker');
+    expect(listNames[1].nativeElement.textContent.trim()).toEqual('Darth Vader');
+    expect(listNames[2].nativeElement.textContent.trim()).toEqual('Leia Organa');
   })
 });
