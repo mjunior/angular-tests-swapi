@@ -4,11 +4,12 @@ import { PeoplesListComponent } from './peoples-list.component';
 import { PeoplesListService } from './peoples-list.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { By } from '@angular/platform-browser';
 
 export class DataStub {
   public getPeoples(): Observable<any> {
     return new Observable((observer) => {
-      observer.next({ results: [{ name: 1 }, { name: 1 }] });
+      observer.next({ results: [{ name: 'Joao' }, { name: 'Jose' }] });
     });
   }
 }
@@ -29,7 +30,9 @@ fdescribe('PeoplesListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('teste', () => {
-    expect( component.peoples.length).toEqual(2);
+  it('should list people names', () => {
+    const li = fixture.debugElement.queryAll(By.css('#people-list li'));
+    expect(li[0].nativeElement.textContent.trim()).toEqual('Joao');
+    expect(li[1].nativeElement.textContent.trim()).toEqual('Jose');
   });
 });
